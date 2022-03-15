@@ -1,13 +1,115 @@
+body {
+    font-family: "DM Sans", sans-serif;
+    margin: 0;
+}
+#lightbox{
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: none;
+}
+#lightbox.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo {
+    width: 200px;
+    margin: 0 100px;
+    object-fit: cover;
+}
+h1 {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 64px;
+    line-height: 83px;
+    color: #D3573C;
+    margin: 0;
+}
+h2 {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 31px;
+    color: #901C1C;
+    margin-top: 0
+}
+h3 {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 23px;
+    color: #525252;
+}
+#photograph-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+
+}
+#main {
+    position : relative;
+}
 #contact_modal {
     display: none;
 }
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 200px;
+    justify-content: center;
+}
+.media-infos{
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 31px;
+    text-align: right;
+    color: #911C1C;
+}
+#chevron {
+    position: absolute;
+    left: 76%;
+}
+#chevron-left{
+    position: absolute;
+    right: 76%;
+    transform: rotate(180deg);
+}
+#cross {
+    position: absolute;
+    right: 20%;
+    top: 10%;
+    background: transparent;
 
+}
+#lightbox-content{
+    width: 50%;
+    height: 80%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+#media{
+    cursor: pointer;
+    width: 350px;
+    height: 300px;
+    border-radius: 5px;
+    object-fit: cover;
+}
 .photograph-header {
     background-color: #FAFAFA;
     height: 300px;
     margin: 0 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
 }
-
 .contact_button {
     font-size: 20px;
     font-weight: bold;
@@ -19,8 +121,11 @@
     background-color: #901C1C;
     border-radius: 5px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: center;
 }
-
 .modal {
     border-radius: 5px;
     background-color: #DB8876;
@@ -32,34 +137,28 @@
     padding: 35px;
     margin: auto;
 }
-
 .modal header {
     justify-content: space-between;
     width: 100%;
 }
-
 .modal header img {
     cursor: pointer;
 }
-
 .modal header h2 {
     font-size: 64px;
     font-weight: normal;
     text-align: center;
 }
-
 form {
     display: flex;
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
 }
-
 form label {
     color: #312E2E;
     font-size: 36px;
 }
-
 form div {
     display: flex;
     flex-direction: column;
@@ -67,7 +166,6 @@ form div {
     align-items: self-start;
     margin-bottom: 26px;
 }
-
 form input {
     width: 100%;
     height: 68px;

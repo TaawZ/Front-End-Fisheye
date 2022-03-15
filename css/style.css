@@ -17,6 +17,7 @@ header {
 h1 {
     color: #901C1C;
     margin-right: 100px;
+    font-size: 36px;
 }
 
 .logo {
@@ -42,9 +43,41 @@ h1 {
 .photographer_section article h2 {
     color: #D3573C;
     font-size: 36px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.photographer_section article a {
+    text-decoration : none;
+}
+
+h3 {
+margin: 0px;
+font-size: 13px;
+font-weight: 500;
+font-family: "DM Sans", sans-serif;
+color: #D3573C;
+}
+
+h4{
+margin: 0px;
+font-size: 10px;
+font-weight: 400;
+font-family: "DM Sans", sans-serif;
+}
+
+h5{
+margin: 0px;
+font-size: 9px;
+font-weight: 400;
+font-family: "DM Sans", sans-serif;
+color: #757575;
+
 }
 
 .photographer_section article img {
     height: 200px;
     width: 200px;
+    border-radius: 50%;
+    object-fit: cover;
 }
