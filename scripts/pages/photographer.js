@@ -23,18 +23,6 @@ async function init() {
 	getUserHeader(photographers);
 	gallery(photographers);
 	filterMedia(photographers);
-	retrieveTotalLikes();
-}
-
-function retrieveTotalLikes() {
-	const photographers = getPhotographers();
-	const photographerId = getPhotographersId();
-	const photographerMedia = photographers.media.filter((x) => x.photographerId === photographerId);
-	console.log(photographerMedia);
-	photographerMedia.forEach((media) => {
-		const likes = (likes += photographerMedia.likes);
-		console.log(likes);
-	});
 }
 
 function getUserHeader(data) {
@@ -82,6 +70,7 @@ function gallery(data) {
 	const photographerId = parseInt(getPhotographersId());
 	const gallery = document.querySelector("div.gallery");
 	var medias;
+	let sum = 0;
 	if (data.media) {
 		medias = data.media.filter((x) => x.photographerId === photographerId);
 	} else {
@@ -89,6 +78,7 @@ function gallery(data) {
 		medias = data;
 	}
 	medias.forEach((media, currentIndex) => {
+		sum += media.likes;
 		const galleryElt = document.createElement("div");
 		const eltInfos = document.createElement("div");
 		const likeContainer = document.createElement("div");
@@ -97,6 +87,13 @@ function gallery(data) {
 		const heart = document.createElement("i");
 		title.textContent = media.title;
 		likes.textContent = media.likes;
+		heart.addEventListener(
+			"click",
+			(e) => {
+				likes.textContent = ++media.likes;
+			},
+			{ once: true }
+		);
 		galleryElt.setAttribute("id", "gallery-element");
 		eltInfos.setAttribute("class", "media-infos");
 		heart.setAttribute("class", "far fa-heart");
@@ -112,6 +109,12 @@ function gallery(data) {
 		likeContainer.appendChild(heart);
 		eltInfos.appendChild(likeContainer);
 	});
+	const photographer = data.photographers.filter((x) => x.id === photographerId);
+	const price = photographer[0].price;
+	const totalLikes = document.querySelector("#total-likes");
+	const pricing = document.querySelector("#price-day");
+	totalLikes.textContent = sum;
+	pricing.textContent = price + "€/jour";
 }
 
 function retrieveMediaContainer(media) {
@@ -196,6 +199,8 @@ function filterMedia(data) {
 		gallery(medias);
 	});
 	likes.addEventListener("click", (e) => {
+		const arrow = document.querySelector("#filter-icon");
+		arrow.classList.toggle("rotate");
 		const photographerId = parseInt(getPhotographersId());
 		const medias = data.media.filter((x) => x.photographerId === photographerId);
 		medias.sort((a, b) => {
