@@ -10,7 +10,7 @@ function photographerFactory(data) {
 		const h3 = document.createElement("h3");
 		const h4 = document.createElement("h4");
 		const h5 = document.createElement("h5");
-		const link = "/photographer.html" + "?id=" + data.id;
+		const link = "/photographer.html" + "?id=" + id;
 		img.setAttribute("src", picture);
 		a.setAttribute("href", link);
 		h2.textContent = name;

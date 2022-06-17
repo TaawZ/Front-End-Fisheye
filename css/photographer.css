@@ -16,6 +16,24 @@ body {
     justify-content: center;
     align-items: center;
 }
+#lightbox.active #media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 800px;
+    height: 800px;
+}
+#lightbox-title{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 31px;
+    color: #911C1C;
+    align-self: flex-end;
+    text-align: left;
+    right: 900px;
+    top: 50px;
+    position: relative;
+}
 .logo {
     width: 200px;
     margin: 0 100px;
@@ -57,6 +75,51 @@ h3 {
 #contact_modal {
     display: none;
 }
+button{
+    background-color: transparent;
+    border: none;
+}
+.pricing{
+    width: 370px;
+    height: 60px;
+    background-color: #DB8876;
+    position: sticky;
+    bottom: 0;
+    left: 75%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.filter{
+    display: flex;
+    margin-left: 100px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.filter-select{
+    display: flex;
+    flex-direction: column;
+    background-color: #911C1C;
+    margin-left: 25px;
+    width: 170px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.dropdown{
+    display: none;
+    flex-direction: column;
+}
+.dropdown button{
+    border-top-style: solid;
+    border-width: 1px;
+}
+.filter-select button{
+    color: white;
+    font-size: 18px;
+    padding: 10px;
+    justify-content: flex-start;
+    display: flex;
+}
 .gallery {
     display: flex;
     flex-wrap: wrap;
@@ -72,13 +135,18 @@ h3 {
     text-align: right;
     color: #911C1C;
 }
+#lightbox-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
 #chevron {
-    position: absolute;
-    left: 76%;
+
 }
 #chevron-left{
-    position: absolute;
-    right: 76%;
+  
     transform: rotate(180deg);
 }
 #cross {
@@ -89,8 +157,6 @@ h3 {
 
 }
 #lightbox-content{
-    width: 50%;
-    height: 80%;
     border-radius: 5px;
     object-fit: cover;
 }

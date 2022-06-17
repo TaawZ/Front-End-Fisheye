@@ -4,7 +4,7 @@ async function getPhotographers() {
 			if (res.ok) {
 				return res.json();
 			} else {
-				throw alert("Une erreur c'est produite.");
+				throw alert("Error on load");
 			}
 		})
 		.then(function (data) {
