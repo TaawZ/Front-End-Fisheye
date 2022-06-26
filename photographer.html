@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
   <link href="css/photographer.css" rel="stylesheet" type="text/css" />
@@ -12,22 +12,22 @@
 <body>
   <header>
     <a href="index.html">
-      <img src="assets/images/logo.png" class="logo" />
+      <img src="assets/images/logo.png" class="logo" alt="logo" />
     </a>
   </header>
   <main id="main">
     <div class="photograph-header">
       <div class="photograph-infos"></div>
-      <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+      <button aria-label="ouvrir_contact" class="contact_button" onclick="displayModal()">Contactez-moi</button>
     </div>
     <section class="media">
       <div class="filter">
         <span>Trier Par</span>
         <div class="filter-select">
-          <button id="likes">Popularité <img id="filter-icon" class="animate-icon" src="assets/icons/Vector.svg"></button>
+          <div id="button-container"><button id="likes">Popularité</button><img id="filter-icon" class="animate-icon" src="assets/icons/Vector.svg" alt="fleche"></div>
           <div class="dropdown">
-            <button id="date">Date</button>
             <button id="title">Titre</button>
+            <button id="date">Date</button>  
           </div>
         </div>        
       </div>
@@ -35,7 +35,7 @@
       <div class="pricing">
         <div>
         <span id="total-likes"></span>
-        <img src="assets/icons/fullHeart.svg"> 
+        <img src="assets/icons/fullHeart.svg" alt="heart"> 
       </div>
         <span id="price-day"></span>
       </div>
@@ -43,12 +43,15 @@
   </main>
   <div id="contact_modal">
     <div class="modal">
-      <header>
-        <h2>Contactez-moi</h2>
-        <img src="assets/icons/close.svg" onclick="closeModal()" />
-      </header>
-      <form>
+      <header id="modal_header">
         <div>
+        <h2>Contactez-moi</h2>
+        <h2 id="modal_name"></h2>
+      </div>
+        <img src="assets/icons/close.svg" onclick="closeModal()" alt="croix" />
+      </header>
+      <form onsubmit="return closeModal()">
+        <div aria-labelledby="Coordonnées">
           <label for="first-name">Prénom</label>
           <input id="first-name" />
           <label for="name">Nom</label>
@@ -58,7 +61,7 @@
           <label for="comments">Votre message</label>
           <input id="comments" />
         </div>
-        <button class="contact_button">Envoyer</button>
+        <button class="contact_button" aria-label="fermer" id="send">Envoyer</button>
       </form>
     </div>
   </div>

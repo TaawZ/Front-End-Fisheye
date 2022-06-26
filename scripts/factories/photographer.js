@@ -5,6 +5,7 @@ function photographerFactory(data) {
 	function getUserCardDOM() {
 		const a = document.createElement("a");
 		const article = document.createElement("article");
+		article.setAttribute("class", "select-photographer");
 		const img = document.createElement("img");
 		const h2 = document.createElement("h2");
 		const h3 = document.createElement("h3");

@@ -18,6 +18,7 @@ async function getPhotographers() {
 function getPhotographersId() {
 	return new URL(location.href).searchParams.get("id");
 }
+
 async function init() {
 	const photographers = await getPhotographers();
 	getUserHeader(photographers);
@@ -47,6 +48,8 @@ function getUserHeader(data) {
 			photographerInfos.appendChild(h2);
 			photographerInfos.appendChild(h3);
 			photographerHeader.appendChild(img);
+			const modalName = document.querySelector("#modal_name");
+			modalName.textContent = photographer.name;
 		}
 	}
 }
@@ -91,6 +94,7 @@ function gallery(data) {
 			"click",
 			(e) => {
 				likes.textContent = ++media.likes;
+				totalLikes.textContent = ++sum;
 			},
 			{ once: true }
 		);
@@ -130,9 +134,13 @@ function retrieveMediaContainer(media) {
 		const video = media.video;
 		const videoPath = `assets/media/${video}`;
 		const videoContainer = document.createElement("video");
-		videoContainer.setAttribute("src", videoPath);
+		const source = document.createElement("source");
+		source.setAttribute("src", videoPath);
+		source.setAttribute("type", "video/mp4");
 		videoContainer.setAttribute("id", "media");
+		videoContainer.setAttribute("controls", true);
 		mediaContainer.appendChild(videoContainer);
+		videoContainer.appendChild(source);
 	}
 	return mediaContainer;
 }
@@ -178,8 +186,22 @@ function displayLightbox(medias, currentIndex, lightbox) {
 	lightboxContainer.appendChild(chevron);
 	lightboxContainer.appendChild(title);
 	lightbox.appendChild(lightboxContainer);
-}
 
+	document.addEventListener(
+		"keydown",
+		(event) => {
+			if (lightbox.classList.contains("active")) {
+				if ((event.key = "arrowLeft")) {
+					displayLightbox(medias, currentIndex - 1, lightbox);
+				}
+				if ((event.key = "arrowRight")) {
+					displayLightbox(medias, currentIndex + 1, lightbox);
+				}
+			}
+		},
+		false
+	);
+}
 function filterMedia(data) {
 	const filterMenu = document.querySelector("div.filter-select");
 	const dropdown = document.querySelector("div.dropdown");
@@ -199,8 +221,6 @@ function filterMedia(data) {
 		gallery(medias);
 	});
 	likes.addEventListener("click", (e) => {
-		const arrow = document.querySelector("#filter-icon");
-		arrow.classList.toggle("rotate");
 		const photographerId = parseInt(getPhotographersId());
 		const medias = data.media.filter((x) => x.photographerId === photographerId);
 		medias.sort((a, b) => {
@@ -220,7 +240,9 @@ function filterMedia(data) {
 		gallery(medias);
 	});
 	filterMenu.addEventListener("click", (e) => {
-		dropdown.style.display = "flex";
+		const arrow = document.querySelector("#filter-icon");
+		arrow.classList.toggle("rotate");
+		dropdown.classList.toggle("grow");
 	});
 }
 
