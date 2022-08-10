@@ -138,6 +138,7 @@ function retrieveMediaContainer(media) {
 		const img = document.createElement("img");
 		img.setAttribute("src", picture);
 		img.setAttribute("id", "media");
+		img.setAttribute("tabindex", 0);
 		mediaContainer.appendChild(img);
 	} else if (media.video) {
 		const video = media.video;
@@ -254,9 +255,7 @@ const dropdown = document.querySelector("div.dropdown");
 filterButton.addEventListener("click", properRadius);
 
 function properRadius() {
-	console.log("ici");
-	console.log(dropdown.classList);
-	if (!dropdown.classList.contains === "grow") filterButton.style.borderRadius = "5% 5% 0% 0%";
+	filterButton.style.borderRadius = "5% 5% 0% 0%";
 }
 
 function filterMedia(data) {

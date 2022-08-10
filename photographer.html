@@ -2,6 +2,7 @@
 <html lang="fr">
 
 <head>
+  <script src="https://kit.fontawesome.com/d652767338.js" crossorigin="anonymous"></script>
   <link href="css/photographer.css" rel="stylesheet" type="text/css" />
   <meta charset="utf-8">
   <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -10,19 +11,19 @@
 </head>
 
 <body>
-  <header>
+  <header aria-label="Top of the page">
     <a href="index.html">
       <img src="assets/images/logo.png" class="logo" alt="logo" />
     </a>
   </header>
   <main id="main">
-    <div class="photograph-header">
+    <div class="photograph-header" aria-label="A banner with photographer information">
       <div class="photograph-infos"></div>
       <button aria-label="ouvrir_contact" class="contact_button" onclick="displayModal()">Contactez-moi</button>
     </div>
-    <section class="media">
+    <section class="media" aria-label="All of the photographer media">
       <div class="filter">
-        <span>Trier Par</span>
+        <span >Trier Par</span>
         <div class="filter-select">
           <div id="button-container"><button id="likes">Popularité</button><img id="filter-icon" class="animate-icon" src="assets/icons/Vector.svg" alt="fleche"></div>
           <div class="dropdown">
@@ -35,23 +36,23 @@
       <div class="pricing">
         <div>
         <span id="total-likes"></span>
-        <img src="assets/icons/fullHeart.svg" alt="heart"> 
+        <em class="fas fa-heart"></em>
       </div>
         <span id="price-day"></span>
       </div>
     </section>
   </main>
-  <div id="contact_modal">
+  <div id="contact_modal" aria-label="contact modal">
     <div class="modal">
       <header id="modal_header">
         <div>
         <h2>Contactez-moi</h2>
         <h2 id="modal_name"></h2>
       </div>
-        <img src="assets/icons/close.svg" onclick="closeModal()" alt="croix" />
+        <img src="assets/icons/close.svg" onclick="closeModal()" alt="cross" />
       </header>
       <form onsubmit="return closeModal()">
-        <div aria-labelledby="Coordonnées">
+        <div>
           <label for="first-name">Prénom</label>
           <input id="first-name" />
           <label for="name">Nom</label>
@@ -61,7 +62,7 @@
           <label for="comments">Votre message</label>
           <input id="comments" />
         </div>
-        <button class="contact_button" aria-label="fermer" id="send">Envoyer</button>
+        <button class="contact_button" aria-label="submit button" id="send">Envoyer</button>
       </form>
     </div>
   </div>
@@ -70,7 +71,7 @@
   <script src="scripts/factories/photographer.js"></script>
   <script src="scripts/utils/contactForm.js"></script>
   <script src="scripts/pages/photographer.js"></script>
-  <script src="https://kit.fontawesome.com/d652767338.js" crossorigin="anonymous"></script>
+  
 </body>
 
 </html>

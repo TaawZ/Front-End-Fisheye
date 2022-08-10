@@ -1,5 +1,4 @@
 function displayModal() {
-	const modal = document.getElementById("contact_modal");
 	modal.style.display = "block";
 }
 
@@ -15,6 +14,12 @@ const focusableElements = 'button, [href], input, select, textarea, [tabindex]:n
 const firstFocusableElement = modal.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
 const focusableContent = modal.querySelectorAll(focusableElements);
 const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
+
+window.addEventListener("keydown", (e) => {
+	if ((modal.style.display = "block" && e.key === "Escape")) {
+		modal.style.display = "none";
+	}
+});
 
 //retrieve form content in console
 send.addEventListener("click", (e) => {
