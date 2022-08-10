@@ -1,4 +1,4 @@
-//Mettre le code JavaScript lié à la page photographer.html
+//Retrieve the json file
 async function getPhotographers() {
 	return fetch("data/photographers.json")
 		.then(function (res) {
@@ -25,6 +25,8 @@ async function init() {
 	gallery(photographers);
 	filterMedia(photographers);
 }
+
+//Retrieve user banner informations
 
 function getUserHeader(data) {
 	const photographerId = getPhotographersId();
@@ -54,6 +56,8 @@ function getUserHeader(data) {
 	}
 }
 
+//creating lightbox and remove it when clicking outside it
+
 const lightbox = document.createElement("div");
 lightbox.id = "lightbox";
 document.body.appendChild(lightbox);
@@ -68,6 +72,8 @@ function removeUnsorted(parent) {
 		parent.removeChild(parent.firstChild);
 	}
 }
+
+// factory for treating all the medias that passes in the function
 
 function gallery(data) {
 	const photographerId = parseInt(getPhotographersId());
@@ -100,7 +106,8 @@ function gallery(data) {
 		);
 		galleryElt.setAttribute("id", "gallery-element");
 		eltInfos.setAttribute("class", "media-infos");
-		heart.setAttribute("class", "far fa-heart");
+		likeContainer.setAttribute("class", "media-likes");
+		heart.setAttribute("class", "fas fa-heart");
 		const mediaContainer = retrieveMediaContainer(media);
 		mediaContainer.addEventListener("click", (e) => {
 			displayLightbox(medias, currentIndex, lightbox);
@@ -120,6 +127,8 @@ function gallery(data) {
 	totalLikes.textContent = sum;
 	pricing.textContent = price + "€/jour";
 }
+
+// Check if the media is a video or an image
 
 function retrieveMediaContainer(media) {
 	const mediaContainer = document.createElement("div");
@@ -145,6 +154,10 @@ function retrieveMediaContainer(media) {
 	return mediaContainer;
 }
 
+// declaring listener to prevent bad behavior
+let currentKeydownListener = undefined;
+let currentClickListener = undefined;
+
 function displayLightbox(medias, currentIndex, lightbox) {
 	lightbox.classList.add("active");
 	const media = medias[currentIndex];
@@ -163,20 +176,30 @@ function displayLightbox(medias, currentIndex, lightbox) {
 	chevronLeft.id = "chevron-left";
 	cross.src = "assets/icons/close.svg";
 	cross.id = "cross";
+
+	//listen on clicks
+
+	if (currentClickListener) {
+		document.removeEventListener("click", currentClickListener);
+	}
+	currentClickListener = (e) => {
+		chevronLeft.addEventListener("click", (e) => {
+			if (medias[currentIndex - 1]) {
+				displayLightbox(medias, currentIndex - 1, lightbox);
+			}
+		});
+		chevron.addEventListener("click", (e) => {
+			if (medias[currentIndex + 1]) {
+				displayLightbox(medias, currentIndex + 1, lightbox);
+			}
+		});
+	};
+	document.addEventListener("click", currentClickListener, false);
 	cross.addEventListener("click", (e) => {
 		if (e.target !== e.currentTarget) return;
 		lightbox.classList.remove("active");
 	});
-	chevronLeft.addEventListener("click", (e) => {
-		if (medias[currentIndex - 1]) {
-			displayLightbox(medias, currentIndex - 1, lightbox);
-		}
-	});
-	chevron.addEventListener("click", (e) => {
-		if (medias[currentIndex + 1]) {
-			displayLightbox(medias, currentIndex + 1, lightbox);
-		}
-	});
+
 	while (lightbox.firstChild) {
 		lightbox.removeChild(lightbox.firstChild);
 	}
@@ -187,24 +210,58 @@ function displayLightbox(medias, currentIndex, lightbox) {
 	lightboxContainer.appendChild(title);
 	lightbox.appendChild(lightboxContainer);
 
-	document.addEventListener(
-		"keydown",
-		(event) => {
-			if (lightbox.classList.contains("active")) {
-				if ((event.key = "arrowLeft")) {
-					displayLightbox(medias, currentIndex - 1, lightbox);
-				}
-				if ((event.key = "arrowRight")) {
-					displayLightbox(medias, currentIndex + 1, lightbox);
-				}
+	//keyboard navigation
+
+	if (currentKeydownListener) {
+		document.removeEventListener("keydown", currentKeydownListener);
+	}
+	(currentKeydownListener = (e) => {
+		if (lightbox.classList.contains("active")) {
+			if (e.key === "ArrowRight" && medias[currentIndex + 1]) {
+				displayLightbox(medias, currentIndex + 1, lightbox);
+			} else if (e.key === "ArrowLeft" && medias[currentIndex - 1]) {
+				displayLightbox(medias, currentIndex - 1, lightbox);
 			}
-		},
-		false
-	);
+		}
+	}),
+		document.addEventListener("keydown", currentKeydownListener, false);
 }
+
+//function that prevent background to scroll when the modal is open
+
+function preventScroll() {
+	const body = document.querySelector("body");
+	const modal = document.querySelector(".modal");
+	if (modal.style.display === "flex") {
+		body.style.overflowY = "hidden";
+		console.log("noscroll");
+	}
+}
+
+// close the lightbox when pressing Escape
+
+window.addEventListener("keydown", (e) => {
+	if ((lightbox.style.display = "flex" && e.key === "Escape")) {
+		lightbox.classList.remove("active");
+	}
+});
+
+//sorting system and listeners
+
+const filterButton = document.querySelector("#button-container");
+const dropdown = document.querySelector("div.dropdown");
+
+filterButton.addEventListener("click", properRadius);
+
+function properRadius() {
+	console.log("ici");
+	console.log(dropdown.classList);
+	if (!dropdown.classList.contains === "grow") filterButton.style.borderRadius = "5% 5% 0% 0%";
+}
+
 function filterMedia(data) {
 	const filterMenu = document.querySelector("div.filter-select");
-	const dropdown = document.querySelector("div.dropdown");
+
 	const date = document.querySelector("#date");
 	const likes = document.querySelector("#likes");
 	const title = document.querySelector("#title");

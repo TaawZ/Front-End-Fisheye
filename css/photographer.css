@@ -2,6 +2,14 @@ body {
     font-family: "DM Sans", sans-serif;
     margin: 0;
 }
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 90px;
+}
+
 /* lightbox */
 #lightbox{
     position: fixed;
@@ -132,14 +140,20 @@ button{
     flex-direction: column;
     margin-left: 25px;
     width: 170px;
+    border-radius: 5px;
+}
+#button-container{
+    background-color: #911C1C;
+    display: flex;
     padding: 10px;
     border-radius: 5px;
+    justify-content: space-between;
 }
 .dropdown{
     background-color: #911C1C;
     display: none;
     flex-direction: column;
-    border-radius: 5px;
+    border-radius: 0% 0% 5% 5%;
     padding: 0px 10px 10px 10px;
 }
 .dropdown button{
@@ -153,13 +167,8 @@ button{
     justify-content: flex-start;
     display: flex;
 }
-#button-container{
-    background-color: #911C1C;
-    display: flex;
-    padding: 10px 10px 0px 10px;
-    border-radius: 5px;
-    justify-content: space-between;
-}
+
+
 .animate-icon {
     transition: 0.4s;
 }
@@ -172,28 +181,37 @@ button{
     transform:rotate(180deg);
 }
 .gallery {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 200px;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 100px;
+}
+#gallery-element{
+    width: 350px;
+    height: 300px;
+    border-radius: 5px;
+    margin: 0 100px;
 }
 .media-infos{
     display: flex;
     justify-content: space-between;
     font-weight: 500;
     font-size: 24px;
-    line-height: 31px;
+    line-height: 24px;
     text-align: right;
     color: #911C1C;
 }
 
+.media-likes{
+    display: flex;
+    gap: 5px;
+}
 
 #media{
     cursor: pointer;
     width: 350px;
     height: 300px;
-    border-radius: 5px;
     object-fit: cover;
+    border-radius: 5px;
 }
 .photograph-header {
     background-color: #FAFAFA;
@@ -222,7 +240,8 @@ button{
     vertical-align: center;
 }
 .contact_button:hover, .contact_button:focus{
-    background: #DB8876;
+    background: #D3573C;
+    color: black;
 }
 #modal_header{
     display: flex;
