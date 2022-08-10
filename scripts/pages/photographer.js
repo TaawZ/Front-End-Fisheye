@@ -252,12 +252,6 @@ window.addEventListener("keydown", (e) => {
 const filterButton = document.querySelector("#button-container");
 const dropdown = document.querySelector("div.dropdown");
 
-filterButton.addEventListener("click", properRadius);
-
-function properRadius() {
-	filterButton.style.borderRadius = "5% 5% 0% 0%";
-}
-
 function filterMedia(data) {
 	const filterMenu = document.querySelector("div.filter-select");
 
@@ -299,6 +293,7 @@ function filterMedia(data) {
 		const arrow = document.querySelector("#filter-icon");
 		arrow.classList.toggle("rotate");
 		dropdown.classList.toggle("grow");
+		filterButton.classList.toggle("border-misc");
 	});
 }
 
