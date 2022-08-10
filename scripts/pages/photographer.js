@@ -228,17 +228,6 @@ function displayLightbox(medias, currentIndex, lightbox) {
 		document.addEventListener("keydown", currentKeydownListener, false);
 }
 
-//function that prevent background to scroll when the modal is open
-
-function preventScroll() {
-	const body = document.querySelector("body");
-	const modal = document.querySelector(".modal");
-	if (modal.style.display === "flex") {
-		body.style.overflowY = "hidden";
-		console.log("noscroll");
-	}
-}
-
 // close the lightbox when pressing Escape
 
 window.addEventListener("keydown", (e) => {

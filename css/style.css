@@ -5,6 +5,9 @@ body {
     margin: 0;
 }
 
+body.modal {
+    overflow: hidden;
+}
 
 header {
     display: flex;
@@ -74,6 +77,7 @@ font-family: "DM Sans", sans-serif;
 color: #757575;
 
 }
+
 
 .photographer_section article img {
     height: 200px;

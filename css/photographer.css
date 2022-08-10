@@ -135,6 +135,9 @@ button{
     margin-bottom: 20px;
     font-weight: 600;
 }
+.filter span{
+    padding-top: 15px;
+}
 .filter-select{
     display: flex;
     flex-direction: column;
@@ -186,7 +189,7 @@ button{
 .gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 100px;
+    grid-gap: 70px;
 }
 #gallery-element{
     width: 350px;
