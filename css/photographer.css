@@ -25,7 +25,7 @@ header {
     justify-content: center;
     align-items: center;
 }
-#lightbox.active #media {
+#lightbox.active .media {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -137,6 +137,7 @@ button{
 }
 .filter span{
     padding-top: 15px;
+    flex-wrap: nowrap;
 }
 .filter-select{
     display: flex;
@@ -191,7 +192,7 @@ button{
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 70px;
 }
-#gallery-element{
+.gallery-element{
     width: 350px;
     height: 300px;
     border-radius: 5px;
@@ -212,7 +213,7 @@ button{
     gap: 5px;
 }
 
-#media{
+.media{
     cursor: pointer;
     width: 350px;
     height: 300px;

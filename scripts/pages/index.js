@@ -1,18 +1,11 @@
 async function getPhotographers() {
-	return fetch("data/photographers.json")
-		.then(function (res) {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw alert("Error on load");
-			}
-		})
-		.then(function (data) {
-			return data;
-		})
-		.catch(function (err) {
-			throw err;
-		});
+	return fetch("data/photographers.json").then(function (res) {
+		if (res.ok) {
+			return res.json();
+		} else {
+			throw alert("Error on load");
+		}
+	});
 }
 
 async function displayData(photographers) {

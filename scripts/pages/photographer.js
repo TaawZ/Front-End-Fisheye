@@ -1,23 +1,13 @@
-//Retrieve the json file
-async function getPhotographers() {
-	return fetch("data/photographers.json")
-		.then(function (res) {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw alert("Une erreur c'est produite.");
-			}
-		})
-		.then(function (data) {
-			return data;
-		})
-		.catch(function (err) {
-			throw err;
-		});
-}
+//Id of the selected photographer
 function getPhotographersId() {
 	return new URL(location.href).searchParams.get("id");
 }
+
+// global listener variable to prevent bad behavior
+let currentKeydownListener = undefined;
+let currentClickListener = undefined;
+
+// simple init function
 
 async function init() {
 	const photographers = await getPhotographers();
@@ -26,146 +16,16 @@ async function init() {
 	filterMedia(photographers);
 }
 
-//Retrieve user banner informations
-
-function getUserHeader(data) {
-	const photographerId = getPhotographersId();
-	for (i = 0; i < 6; i++) {
-		const photographer = data.photographers[i];
-		if (photographerId == photographer.id) {
-			const portrait = photographer.portrait;
-			const picture = `assets/photographers/${portrait}`;
-			const photographerHeader = document.querySelector(".photograph-header");
-			const photographerInfos = document.querySelector(".photograph-infos");
-			const h1 = document.createElement("h1");
-			const h2 = document.createElement("h2");
-			const h3 = document.createElement("h3");
-			const img = document.createElement("img");
-			img.setAttribute("src", picture);
-			img.setAttribute("id", "photograph-img");
-			h1.textContent = photographer.name;
-			h2.textContent = photographer.city + ", " + photographer.country;
-			h3.textContent = photographer.tagline;
-			photographerInfos.appendChild(h1);
-			photographerInfos.appendChild(h2);
-			photographerInfos.appendChild(h3);
-			photographerHeader.appendChild(img);
-			const modalName = document.querySelector("#modal_name");
-			modalName.textContent = photographer.name;
-		}
-	}
-}
-
-//creating lightbox and remove it when clicking outside it
-
-const lightbox = document.createElement("div");
-lightbox.id = "lightbox";
-document.body.appendChild(lightbox);
-
-lightbox.addEventListener("click", (e) => {
-	if (e.target !== e.currentTarget) return;
-	lightbox.classList.remove("active");
-});
-
-function removeUnsorted(parent) {
-	while (parent.firstChild) {
-		parent.removeChild(parent.firstChild);
-	}
-}
-
-// factory for treating all the medias that passes in the function
-
-function gallery(data) {
-	const photographerId = parseInt(getPhotographersId());
-	const gallery = document.querySelector("div.gallery");
-	var medias;
-	let sum = 0;
-	if (data.media) {
-		medias = data.media.filter((x) => x.photographerId === photographerId);
-	} else {
-		removeUnsorted(gallery);
-		medias = data;
-	}
-	medias.forEach((media, currentIndex) => {
-		sum += media.likes;
-		const galleryElt = document.createElement("div");
-		const eltInfos = document.createElement("div");
-		const likeContainer = document.createElement("div");
-		const title = document.createElement("span");
-		const likes = document.createElement("span");
-		const heart = document.createElement("i");
-		title.textContent = media.title;
-		likes.textContent = media.likes;
-		heart.addEventListener(
-			"click",
-			(e) => {
-				likes.textContent = ++media.likes;
-				totalLikes.textContent = ++sum;
-			},
-			{ once: true }
-		);
-		galleryElt.setAttribute("id", "gallery-element");
-		eltInfos.setAttribute("class", "media-infos");
-		likeContainer.setAttribute("class", "media-likes");
-		heart.setAttribute("class", "fas fa-heart");
-		const mediaContainer = retrieveMediaContainer(media);
-		mediaContainer.addEventListener("click", (e) => {
-			displayLightbox(medias, currentIndex, lightbox);
-		});
-		gallery.appendChild(galleryElt);
-		galleryElt.appendChild(mediaContainer);
-		galleryElt.appendChild(eltInfos);
-		eltInfos.appendChild(title);
-		likeContainer.appendChild(likes);
-		likeContainer.appendChild(heart);
-		eltInfos.appendChild(likeContainer);
-	});
-	const photographer = data.photographers.filter((x) => x.id === photographerId);
-	const price = photographer[0].price;
-	const totalLikes = document.querySelector("#total-likes");
-	const pricing = document.querySelector("#price-day");
-	totalLikes.textContent = sum;
-	pricing.textContent = price + "€/jour";
-}
-
-// Check if the media is a video or an image
-
-function retrieveMediaContainer(media) {
-	const mediaContainer = document.createElement("div");
-	if (media.image) {
-		const image = media.image;
-		const picture = `assets/media/${image}`;
-		const img = document.createElement("img");
-		img.setAttribute("src", picture);
-		img.setAttribute("id", "media");
-		img.setAttribute("tabindex", 0);
-		mediaContainer.appendChild(img);
-	} else if (media.video) {
-		const video = media.video;
-		const videoPath = `assets/media/${video}`;
-		const videoContainer = document.createElement("video");
-		const source = document.createElement("source");
-		source.setAttribute("src", videoPath);
-		source.setAttribute("type", "video/mp4");
-		videoContainer.setAttribute("id", "media");
-		videoContainer.setAttribute("controls", true);
-		mediaContainer.appendChild(videoContainer);
-		videoContainer.appendChild(source);
-	}
-	return mediaContainer;
-}
-
-// declaring listener to prevent bad behavior
-let currentKeydownListener = undefined;
-let currentClickListener = undefined;
-
 function displayLightbox(medias, currentIndex, lightbox) {
 	lightbox.classList.add("active");
 	const media = medias[currentIndex];
 	const mediaContainer = retrieveMediaContainer(media);
 	const cross = document.createElement("img");
+	cross.setAttribute("alt", "close the lightbox");
 	const chevron = document.createElement("img");
+	chevron.setAttribute("alt", "see the right img");
 	const chevronLeft = document.createElement("img");
+	chevronLeft.setAttribute("alt", "see the left img");
 	const title = document.createElement("span");
 	title.textContent = media.title;
 	title.setAttribute("id", "lightbox-title");
@@ -178,7 +38,7 @@ function displayLightbox(medias, currentIndex, lightbox) {
 	cross.src = "assets/icons/close.svg";
 	cross.id = "cross";
 
-	//listen on clicks
+	//mouse navigation with listeners
 
 	if (currentClickListener) {
 		document.removeEventListener("click", currentClickListener);
@@ -187,12 +47,12 @@ function displayLightbox(medias, currentIndex, lightbox) {
 		chevronLeft.addEventListener("click", (e) => {
 			if (medias[currentIndex - 1]) {
 				displayLightbox(medias, currentIndex - 1, lightbox);
-			}
+			} else displayLightbox(medias, currentIndex + medias.length - 1, lightbox);
 		});
 		chevron.addEventListener("click", (e) => {
 			if (medias[currentIndex + 1]) {
 				displayLightbox(medias, currentIndex + 1, lightbox);
-			}
+			} else displayLightbox(medias, currentIndex - medias.length + 1, lightbox);
 		});
 	};
 	document.addEventListener("click", currentClickListener, false);
@@ -211,7 +71,7 @@ function displayLightbox(medias, currentIndex, lightbox) {
 	lightboxContainer.appendChild(title);
 	lightbox.appendChild(lightboxContainer);
 
-	//keyboard navigation
+	//keyboard navigation in the lightbox
 
 	if (currentKeydownListener) {
 		document.removeEventListener("keydown", currentKeydownListener);
@@ -220,12 +80,37 @@ function displayLightbox(medias, currentIndex, lightbox) {
 		if (lightbox.classList.contains("active")) {
 			if (e.key === "ArrowRight" && medias[currentIndex + 1]) {
 				displayLightbox(medias, currentIndex + 1, lightbox);
+			} else if (e.key === "ArrowRight" && !medias[currentIndex + 1]) {
+				// if this is the last image, go back to the first one
+				displayLightbox(medias, currentIndex - medias.length + 1, lightbox);
 			} else if (e.key === "ArrowLeft" && medias[currentIndex - 1]) {
 				displayLightbox(medias, currentIndex - 1, lightbox);
+			} else if (e.key === "ArrowLeft" && !medias[currentIndex - 1]) {
+				// Same here but in the other way
+				displayLightbox(medias, currentIndex + medias.length - 1, lightbox);
 			}
 		}
 	}),
 		document.addEventListener("keydown", currentKeydownListener, false);
+}
+
+//creating lightbox and remove it when clicking outside it
+
+const lightbox = document.createElement("div");
+lightbox.id = "lightbox";
+document.body.appendChild(lightbox);
+
+lightbox.addEventListener("click", (e) => {
+	if (e.target !== e.currentTarget) return;
+	lightbox.classList.remove("active");
+});
+
+// function used to clear the gallery when we create a sorted one
+
+function removeUnsorted(parent) {
+	while (parent.firstChild) {
+		parent.removeChild(parent.firstChild);
+	}
 }
 
 // close the lightbox when pressing Escape
@@ -236,7 +121,7 @@ window.addEventListener("keydown", (e) => {
 	}
 });
 
-//sorting system and listeners
+//Function that will sort the gallery depending on the user's choice
 
 const filterButton = document.querySelector("#button-container");
 const dropdown = document.querySelector("div.dropdown");
@@ -278,6 +163,9 @@ function filterMedia(data) {
 
 		gallery(medias);
 	});
+
+	// listener for growth the dropdown menu
+
 	filterMenu.addEventListener("click", (e) => {
 		const arrow = document.querySelector("#filter-icon");
 		arrow.classList.toggle("rotate");
@@ -285,5 +173,7 @@ function filterMedia(data) {
 		filterButton.classList.toggle("border-misc");
 	});
 }
+
+// Allow the user to press enter and display the lightbox
 
 init();
